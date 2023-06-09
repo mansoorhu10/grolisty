@@ -8,7 +8,7 @@ My goal was to create a full-stack web application with simple functionality tha
   * I built the app using the MERN stack: MongoDB, Express, React, Node.
 
 ## What I have learned
-I gained lots of experience and knowledge when it comes to creating full-stack web applications using JavaScript.
+I learned lots of valuable skills in full-stack web development using JavaScript.
   * I used the MERN stack, and understood how each of the different technologies interact with other in a full-stack environment.
   * I learned how to utilize the useReducer hook in React, as well as how to update the context of an application.
   * I gained experience building and consuming REST APIs.
