@@ -1,5 +1,5 @@
 # GroListy
-A Grocery List Web Application. Created to track your groceries in a list. 
+A Full-Stack Grocery List Web Application. Created to track your groceries in a list. 
 
 ## How I worked on this project
 My goal was to create a full-stack web application with simple functionality that provides a great user exprience.
