@@ -1,15 +1,19 @@
 /* google font */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;800&family=VT323&display=swap');
 
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+
+
+
 /* layout */
 :root {
-  --primary: #1aac83;
+  --primary: #fa7c16;
   --error: #e7195a;
 }
 body {
   background: #f1f1f1;
   margin: 0;
-  font-family: "Poppins";
+  font-family: 'Inter', sans-serif;
 }
 header {
   background: #fff;
@@ -30,6 +34,9 @@ header a {
   max-width: 1400px;
   padding: 20px;
   margin: 0 auto;
+}
+h1 {
+  font-weight: 700;
 }
 
 /* homepage */
@@ -61,10 +68,12 @@ header a {
   top: 20px;
   right: 20px;
   cursor: pointer;
-  background: #f1f1f1;
-  padding: 6px;
+  padding: 8px;
   border-radius: 50%;
   color: #333;
+}
+.grocery-details span:hover {
+  color: #fa0a16;
 }
 
 /* grocery item form */
@@ -85,7 +94,7 @@ form button {
   border: 0;
   color: #fff;
   padding: 10px;
-  font-family: "Poppins";
+  font-family: 'Inter', sans-serif;
   border-radius: 4px;
   cursor: pointer;
 }

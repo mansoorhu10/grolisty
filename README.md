@@ -19,7 +19,6 @@ I learned lots of valuable skills in full-stack web development using JavaScript
 
 ## Future Improvements
 Once I have enough time to continue working on this project, these are the primary changes and improvements I will make to the web app:
-  * Add Material-UI icons for the Delete Buttons on each item card.
   * Change styling and colors of buttons.
   * Add MERN Authentication so that users can log in to their personal account and view only items stored in their account.
   * Add expiration date as a key piece of information that is stored in a seperate system that tracks and notifies the user to throw out expired goods and buy new groceries.

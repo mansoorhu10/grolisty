@@ -3,6 +3,9 @@ import { useGroceriesContext } from '../hooks/useGroceriesContext'
 // date fns
 import formatDistanceToNow from 'date-fns/formatDistanceToNow'
 
+// mui-icons
+import DeleteIcon from '@mui/icons-material/Delete';
+
 const GroceryDetails = ({ groceryItem }) => {
     const { dispatch } = useGroceriesContext();
 
@@ -24,7 +27,7 @@ const GroceryDetails = ({ groceryItem }) => {
             <p><strong>Brand: </strong>{groceryItem.brand}</p>
             <p><strong>Weight (g): </strong>{groceryItem.weight}</p>
             <p>{formatDistanceToNow(new Date(groceryItem.createdAt), { addSuffix: true })}</p>
-            <span onClick={handleClick} >Delete</span>
+            <span onClick={handleClick}><DeleteIcon /></span>
         </div>
     )
 }
