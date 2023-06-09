@@ -11,7 +11,7 @@ My goal was to create a full-stack web application with simple functionality tha
 I learned lots of valuable skills in full-stack web development using JavaScript.
   * I used the MERN stack, and understood how each of the different technologies interact with other in a full-stack environment.
   * I learned how to utilize the useReducer hook in React, as well as how to update the context of an application.
-  * I gained experience building and consuming REST APIs.
+  * I gained experience building and consuming REST APIs that perform CRUD operations.
   * I added error handling to the item form and implemented useful error messages to display to the user.
   * I learned how to organize my components, pages and contexts into different files and folders and how to seperate the front-end and back-end of the app.
   * I utilized the 60-30-10 color rule with CSS to improve the user interface's design.
