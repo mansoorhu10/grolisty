@@ -3,6 +3,7 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const groceryRoutes = require('./routes/groceries');
+const userRoutes = require('./routes/user');
 
 
 // Creating an express app
@@ -18,6 +19,7 @@ app.use((request, response, next) => {
 
 // Routes
 app.use('/api/groceries', groceryRoutes);
+app.use('/api/user', userRoutes);
 
 
 // Connect to DB
