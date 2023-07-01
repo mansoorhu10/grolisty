@@ -34,3 +34,4 @@ Once I have enough time to continue working on this project, these are the prima
   * dotenv
   * date-fns
   * bcrypt
+  * validator
