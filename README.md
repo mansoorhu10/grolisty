@@ -35,3 +35,4 @@ Once I have enough time to continue working on this project, these are the prima
   * date-fns
   * bcrypt
   * validator
+  * jsonwebtoken
