@@ -11,11 +11,11 @@ const GroceryDetails = ({ groceryItem }) => {
     const { dispatch } = useGroceriesContext();
     const { user } = useAuthContext();
 
-    if (!user) {
-        return;
-    }
-
     const handleClick = async () => {
+        if (!user) {
+            return;
+        }
+
         const response = await fetch('/api/groceries/' + groceryItem._id, {
             method: 'DELETE',
             headers: {

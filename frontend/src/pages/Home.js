@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useGroceriesContext } from '../hooks/useGroceriesContext';
 import { useAuthContext } from '../hooks/useAuthContext';
 
-// components
+// Components
 import GroceryDetails from '../components/GroceryDetails';
 import ItemForm from '../components/ItemForm';
 

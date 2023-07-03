@@ -1,5 +1,4 @@
 const express = require('express');
-const Grocery = require('../models/groceryModel');
 const { 
     createGroceryItem,
     getAllGroceries,
@@ -11,7 +10,7 @@ const requireAuth = require('../middleware/requireAuth');
 
 const router = express.Router();
 
-// Require authentication for all gorcery routes
+// Require authentication for all grocery routes
 router.use(requireAuth);
 
 // GET all groceries
