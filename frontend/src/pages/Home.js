@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useGroceriesContext } from '../hooks/useGroceriesContext';
+import { useAuthContext } from '../hooks/useAuthContext';
 
 // components
 import GroceryDetails from '../components/GroceryDetails';
@@ -7,10 +8,15 @@ import ItemForm from '../components/ItemForm';
 
 const Home = () => {
     const { groceries, dispatch } = useGroceriesContext();
+    const { user } = useAuthContext();
 
     useEffect(() => {
         const fetchGroceries = async () => {
-            const response = await fetch('/api/groceries');
+            const response = await fetch('/api/groceries', {
+                headers: {
+                    'Authorization': `Bearer ${user.token}`
+                }
+            });
             const json = await response.json();
 
             if(response.ok) {
@@ -18,8 +24,10 @@ const Home = () => {
             }
         }
 
-        fetchGroceries();
-    }, [dispatch]);
+        if (user) {
+            fetchGroceries();
+        }
+    }, [dispatch, user]);
 
     return (
         <div className="home">

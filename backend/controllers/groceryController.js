@@ -3,7 +3,8 @@ const Grocery = require('../models/groceryModel');
 
 // get all groceries
 const getAllGroceries = async (request, response) => {
-    const groceries = await Grocery.find({}).sort({createdAt: -1});
+    const userId = request.userId;
+    const groceries = await Grocery.find({ userId }).sort({createdAt: -1});
     response.status(200).json(groceries);
 }
 
@@ -43,9 +44,10 @@ const createGroceryItem = async (request, response) => {
         return response.status(400).json({ error: 'Please fill in all the fields', emptyFields });
     }
 
-    // add the document to the database
+    // Add the document to the database
     try {
-        const groceryItem = await Grocery.create({title, brand, weight});
+        const userId = request.userId
+        const groceryItem = await Grocery.create({title, brand, weight, userId});
         response.status(200).json(groceryItem); // indicates OK
     } catch (error) {
         response.status(404).json({error: error.message}); // indicates error

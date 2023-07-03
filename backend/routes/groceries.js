@@ -1,5 +1,4 @@
 const express = require('express');
-const router = express.Router();
 const Grocery = require('../models/groceryModel');
 const { 
     createGroceryItem,
@@ -8,6 +7,12 @@ const {
     deleteGroceryItem,
     updateGroceryItem
 } = require('../controllers/groceryController');
+const requireAuth = require('../middleware/requireAuth');
+
+const router = express.Router();
+
+// Require authentication for all gorcery routes
+router.use(requireAuth);
 
 // GET all groceries
 router.get('/', getAllGroceries);

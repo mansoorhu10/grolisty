@@ -1,4 +1,5 @@
 import { useGroceriesContext } from '../hooks/useGroceriesContext'
+import { useAuthContext } from '../hooks/useAuthContext';
 
 // date fns
 import formatDistanceToNow from 'date-fns/formatDistanceToNow'
@@ -8,10 +9,18 @@ import DeleteIcon from '@mui/icons-material/Delete';
 
 const GroceryDetails = ({ groceryItem }) => {
     const { dispatch } = useGroceriesContext();
+    const { user } = useAuthContext();
+
+    if (!user) {
+        return;
+    }
 
     const handleClick = async () => {
         const response = await fetch('/api/groceries/' + groceryItem._id, {
-            method: 'DELETE'
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${user.token}`
+            }
         });
 
         const json = await response.json();
