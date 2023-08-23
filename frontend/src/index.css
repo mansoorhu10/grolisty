@@ -138,3 +138,47 @@ form.login, form.signup {
   border-radius: 4px;
 }
 
+/* receipt interface */
+.receipt-interface {
+  margin-top: 50px;
+}
+
+.receipt-input {
+  display: block;
+  width: 100%;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-sizing: border-box;
+  background-color: white;
+  color: black;
+  max-width: 400px;
+}
+
+.receipt-input + label {
+  color: white;
+  background-color: var(--primary);
+  display: inline-block;
+  cursor: pointer;
+}
+
+.receipt-input:focus + label {
+  outline: 0.5px dotted #000;
+  outline: -webkit-focus-ring-color auto 5px;
+}
+
+.receipt-input:focus + label,
+.receipt-input + label:hover {
+  background-color: var(--primary);
+  color:white
+}
+
+.receipt-image {
+  max-width: 400px;
+  max-height: 800px;
+}
+
+.progress-bar {
+  height: 5px;
+  background: var(--primary);
+  margin-top: 20px;
+}

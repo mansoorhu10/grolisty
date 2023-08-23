@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { useGroceriesContext } from '../hooks/useGroceriesContext';
 import { useAuthContext } from '../hooks/useAuthContext';
+import AddIcon from '@mui/icons-material/Add';
+import ReceiptInterface from './ReceiptInterface';
 
 const ItemForm = () => {
     const { dispatch } = useGroceriesContext();
@@ -50,6 +52,7 @@ const ItemForm = () => {
     }
 
     return (
+        <div>
         <form className="create" onSubmit={handleSubmit}>
             <h3>Add a New Item</h3>
 
@@ -77,9 +80,12 @@ const ItemForm = () => {
                 className={emptyFields.includes('weight') ? 'error' : ''}
             />
 
-            <button>Add Item</button>
+            <button>Add Item <AddIcon /></button>
             {error && <div className='error'>{error}</div>} 
+            
         </form>
+        <ReceiptInterface />
+        </div>
     )
 }
 
