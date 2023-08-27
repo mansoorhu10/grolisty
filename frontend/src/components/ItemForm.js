@@ -53,38 +53,38 @@ const ItemForm = () => {
 
     return (
         <div>
-        <form className="create" onSubmit={handleSubmit}>
-            <h3>Add a New Item</h3>
+            <form className="create" onSubmit={handleSubmit}>
+                <h3>Add a New Item</h3>
 
-            <label>Name:</label>
-            <input 
-                type="text"
-                onChange={(e) => setTitle(e.target.value)}
-                value={title}
-                className={emptyFields.includes('title') ? 'error' : ''}
-            />
+                <label>Name:</label>
+                <input 
+                    type="text"
+                    onChange={(e) => setTitle(e.target.value)}
+                    value={title}
+                    className={emptyFields.includes('title') ? 'error' : ''}
+                />
 
-            <label>Brand:</label>
-            <input 
-                type="text"
-                onChange={(e) => setBrand(e.target.value)}
-                value={brand}
-                className={emptyFields.includes('brand') ? 'error' : ''}
-            />
+                <label>Brand:</label>
+                <input 
+                    type="text"
+                    onChange={(e) => setBrand(e.target.value)}
+                    value={brand}
+                    className={emptyFields.includes('brand') ? 'error' : ''}
+                />
 
-            <label>Weight (in g):</label>
-            <input 
-                type="number"
-                onChange={(e) => setWeight(e.target.value)}
-                value={weight}
-                className={emptyFields.includes('weight') ? 'error' : ''}
-            />
+                <label>Weight (in g):</label>
+                <input 
+                    type="number"
+                    onChange={(e) => setWeight(e.target.value)}
+                    value={weight}
+                    className={emptyFields.includes('weight') ? 'error' : ''}
+                />
 
-            <button>Add Item <AddIcon /></button>
-            {error && <div className='error'>{error}</div>} 
-            
-        </form>
-        <ReceiptInterface />
+                <button>Add Item <AddIcon /></button>
+                {error && <div className='error'>{error}</div>} 
+                
+            </form>
+            <ReceiptInterface />
         </div>
     )
 }

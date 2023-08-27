@@ -1,7 +1,10 @@
 import { useState, useEffect } from "react";
 import DeleteIcon from '@mui/icons-material/Delete';
+import { useAuthContext } from "../hooks/useAuthContext";
 
 const EditableItems = ({extractedData}) => {
+    const { user } = useAuthContext();
+
     const [items, setItems] = useState([]);
     const [error, setError] = useState(null);
     const [emptyFields, setEmptyFields] = useState([]);
@@ -9,7 +12,7 @@ const EditableItems = ({extractedData}) => {
     useEffect(() => {
         var data = extractedData.data;
         const lines = data.lines;
-        const universalProductCode = new RegExp("0+[0-9]{11}");
+        const universalProductCode = new RegExp("0+[0-9]{10,11}");
         var upcArray = [];
         
         for (let i = 0; i < lines.length; i++){
@@ -20,6 +23,20 @@ const EditableItems = ({extractedData}) => {
         }
         
         console.log(upcArray);
+
+        const fetchData = async () => {
+            const response = await fetch(`/api/upc/${upcArray[0]}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${user.token}`
+                }
+            });
+
+            const json = await response.json();
+        }
+
+        fetchData();
 
     }, [extractedData]);
 

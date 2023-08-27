@@ -13,7 +13,9 @@
   "license": "ISC",
   "dependencies": {
     "@techstark/opencv-js": "^4.8.0-release.4",
+    "axios": "^1.4.0",
     "bcrypt": "^5.1.0",
+    "cheerio": "^1.0.0-rc.12",
     "dotenv": "^16.1.4",
     "express": "^4.18.2",
     "jsonwebtoken": "^9.0.0",
