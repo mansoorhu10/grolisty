@@ -1,16 +1,42 @@
 const cheerio = require("cheerio");
 const axios = require("axios");
+const puppeteer = require("puppeteer");
+const { Exception } = require("@techstark/opencv-js");
 
 const getProductInformation = async (request, response) => {
-    const { upc } = "05620076227";
-
+    const { upc } = request.params;
     const pageUrl = `https://www.nofrills.ca/search?search-bar=${upc}`;
 
-    const config = {
-        headers: {
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36"
-        },
-    };
+    const browser = await puppeteer.launch({
+        headless: true,
+        defaultViewport: null,
+    });
+
+    const page = await browser.newPage();
+
+    await page.goto(pageUrl, {
+        waitUntil: "domcontentloaded",
+    });
+
+    // console.log(page);
+
+    const productInfo = await page.evaluate(() => {
+        const brand = document.querySelector("#root").innerText;
+        return brand;
+    });
+
+    console.log(productInfo);
+    
+
+    // console.log(productInfo);
+
+    
+
+    // const config = {
+    //     headers: {
+    //         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36"
+    //     },
+    // };
 
     // const axiosResponse = await axios.request({
     //     method: "GET",
@@ -19,11 +45,6 @@ const getProductInformation = async (request, response) => {
     //         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36"
     //     }
     // });
-
-    axios.get(pageUrl)
-        .then(({ data }) => {
-            console.log(data);
-        });
 
     // console.log(newAxios.data);
 
