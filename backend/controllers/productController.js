@@ -13,52 +13,47 @@ const getProductInformation = async (request, response) => {
     });
 
     const page = await browser.newPage();
-
     await page.goto(pageUrl, {
-        waitUntil: "domcontentloaded",
+        waitUntil: "networkidle0",
     });
 
     // console.log(page);
-
-    const productInfo = await page.evaluate(() => {
-        const brand = document.querySelector("#root").innerText;
-        return brand;
+    const productBrand = await page.evaluate(() => {
+        if (document.querySelector("span.product-name__item.product-name__item--brand")){
+            const brand = document.querySelector("span.product-name__item.product-name__item--brand").innerText;
+            return brand;
+        } else {
+            return null;
+        }
     });
 
+    const productName = await page.evaluate(() => {
+        if (document.querySelector("span.product-name__item.product-name__item--name")){
+            const name = document.querySelector("span.product-name__item.product-name__item--name").innerText;
+            return name;
+        } else {
+            return null;
+        }
+    });
+    
+    const productWeight = await page.evaluate(() => {
+        if (document.querySelector("span.product-name__item.product-name__item--package-size")){
+            const weight = document.querySelector("span.product-name__item.product-name__item--package-size").innerText;
+            return weight;
+        } else {
+            return null;
+        }
+    });
+
+    const productInfo = {
+        title: productName,
+        brand: productBrand,
+        weight: productWeight
+    }
+
     console.log(productInfo);
-    
 
-    // console.log(productInfo);
-
-    
-
-    // const config = {
-    //     headers: {
-    //         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36"
-    //     },
-    // };
-
-    // const axiosResponse = await axios.request({
-    //     method: "GET",
-    //     url: pageUrl,
-    //     headers: {
-    //         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36"
-    //     }
-    // });
-
-    // console.log(newAxios.data);
-
-    // console.log(axiosResponse);
-
-    // parsing the HTML source of the target web page with Cheerio
-    //const $ = cheerio.load(newAxios.data);
-
-
-    //const itemBrand = $("body").html();
-
-    // console.log(itemBrand);
-
-    return response.status(200);
+    return response.status(200).json(productInfo);
 }
 
 module.exports = { getProductInformation };

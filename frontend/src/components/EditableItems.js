@@ -25,18 +25,28 @@ const EditableItems = ({extractedData}) => {
         console.log(upcArray);
 
         const fetchData = async () => {
-            const response = await fetch(`/api/upc/${upcArray[0]}`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${user.token}`
-                }
-            });
+            const productArray = [];
 
-            const json = await response.json();
+            for (let i = 0; i < upcArray.length; i++){
+                var response = await fetch(`/api/upc/${upcArray[i]}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${user.token}`
+                    }
+                });
+    
+                var json = await response.json();
+                productArray.push(json);
+            }
+
+            console.log(productArray);
+
+            return productArray;
         }
 
-        fetchData();
+        const tempItems = fetchData();
+        setItems(tempItems);
 
     }, [extractedData]);
 
@@ -80,14 +90,14 @@ const EditableItems = ({extractedData}) => {
     return (
         <form className="editable-items">
             <div className="grocery-details">
-                { items && items.map((item) => {
+                { items && items.map((item) => (
                     <div>
                         <h4><input type="text" value={item.title} /></h4>
                         <p><strong>Brand: </strong><input type="text" value={item.brand} /></p>
                         <p><strong>Weight (g): </strong><input type="text" value={item.weight} /></p>
                         <span><DeleteIcon /></span>
                     </div>
-                }) }
+                )) }
             </div>
         </form>
     );
