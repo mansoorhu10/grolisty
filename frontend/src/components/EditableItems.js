@@ -2,9 +2,11 @@ import { useState, useEffect, setState } from "react";
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
 import { useAuthContext } from "../hooks/useAuthContext";
+import { useGroceriesContext } from "../hooks/useGroceriesContext";
 
 const EditableItems = ({extractedData}) => {
     const { user } = useAuthContext();
+    const { dispatch } = useGroceriesContext;
 
     const [items, setItems] = useState([]);
     const [error, setError] = useState(null);
@@ -52,54 +54,60 @@ const EditableItems = ({extractedData}) => {
 
     }, [extractedData]);
 
-    // const handleSubmit = async (e) => {
-    //     e.preventDefault();
+    const handleSubmit = async (e) => {
+        e.preventDefault();
 
-    //     if (!user) {
-    //         setError('You must be logged in');
-    //         return;
-    //     }
+        if (!user) {
+            setError('You must be logged in');
+            return;
+        }
         
-    //     const groceryItem = {title, brand, weight};
+        const groceryItems = items;
 
-    //     const response = await fetch('/api/groceries', {
-    //         method: 'POST',
-    //         body: JSON.stringify(groceryItem),
-    //         headers: {
-    //             'Content-Type': 'application/json',
-    //             'Authorization': `Bearer ${user.token}`
-    //         }
-    //     });
+        console.log(groceryItems);
 
-    //     const json = await response.json();
-        
-    //     if (!response.ok) {
-    //         setError(json.error);
-    //         setEmptyFields(json.emptyFields);
-    //         console.log(json.emptyFields);
-    //     } 
-    //     if (response.ok) {
-    //         setTitle('');
-    //         setBrand('');
-    //         setWeight('');
-    //         setError(null);
-    //         setEmptyFields([]);
-    //         console.log('New Grocery Item Added:', json);
-    //         dispatch({type: 'CREATE_GROCERY_ITEM', payload: json});
-    //     }
-    // }
+        for (let i = 0; i < groceryItems.length; i++){
+            console.log(groceryItems[i]);
+            var response = await fetch('/api/groceries', {
+                method: 'POST',
+                body: JSON.stringify(groceryItems[i]),
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${user.token}`
+                }
+            });
+    
+            var json = await response.json();
+            
+            if (!response.ok) {
+                setError(json.error);
+                setEmptyFields(json.emptyFields);
+                console.log(json.emptyFields);
+            } 
+            if (response.ok) {
+                setError(null);
+                setEmptyFields([]);
+                console.log('New Grocery Item Added:', json);
+                dispatch({type: 'CREATE_GROCERY_ITEM', payload: json});
+            }
+        }
+    }
+
     return (
-        <form className="editable-items">
-            {items && items.map((item) => (
-                <div className="grocery-details">
-                    <h4>Name: <input type="text" value={item.title} /></h4>
-                    <p><strong>Brand: </strong><input type="text" value={item.brand} /></p>
-                    <p><strong>Weight (g): </strong><input type="text" value={item.weight} /></p>
-                    <span><DeleteIcon /></span>
-                </div>
-            ))}
-            <button>Add All Items<AddIcon /></button>
-        </form>
+        <div>
+        { items && <form onSubmit={handleSubmit} className="editable-items">
+                {items.map((item) => (
+                    <div className="grocery-details">
+                        <label>Name:</label><input type="text" value={item.title} />
+                        <p><label><strong>Brand: </strong></label><input type="text" value={item.brand} /></p>
+                        <p><label><strong>Weight (g): </strong></label><input type="text" value={item.weight} /></p>
+                        <span><DeleteIcon /></span>
+                    </div>
+                ))}
+                <button>Add All Items<AddIcon /></button>
+            </form>
+        }
+        </div>
     );
 }
 
