@@ -104,7 +104,7 @@ const EditableItems = ({extractedData}) => {
                         <span><DeleteIcon /></span>
                     </div>
                 ))}
-                <button>Add All Items<AddIcon /></button>
+                <button>Add All Items<i className="material-icon"></i><AddIcon /></button>
             </form>
         }
         </div>

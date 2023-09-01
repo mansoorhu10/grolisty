@@ -28,7 +28,7 @@ const getGroceryItem = async (request, response) => {
 
 // Create a new grocery item
 const createGroceryItem = async (request, response) => {
-    const {title, brand, weight} = request.body;
+    const {title, brand, weight, weightUnit} = request.body;
 
     let emptyFields = [];
 
@@ -40,7 +40,7 @@ const createGroceryItem = async (request, response) => {
     }
     if(!weight) {
         emptyFields.push('weight');
-    } 
+    }
 
     if(emptyFields.length > 0){
         return response.status(400).json({ error: 'Please fill in all the fields', emptyFields });
@@ -49,7 +49,7 @@ const createGroceryItem = async (request, response) => {
     // Add the document to the database
     try {
         const user_id = request.user._id;
-        const groceryItem = await Grocery.create({title, brand, weight, user_id});
+        const groceryItem = await Grocery.create({title, brand, weight, weightUnit, user_id});
         response.status(200).json(groceryItem); // indicates OK
     } catch (error) {
         response.status(404).json({error: error.message}); // indicates error

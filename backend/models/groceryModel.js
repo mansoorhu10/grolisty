@@ -15,6 +15,10 @@ const grocerySchema = new Schema({
         type: Number,
         required: true,
     },
+    weightUnit: {
+        type: String,
+        required: true,
+    },
     user_id: {
         type: String,
         required: true

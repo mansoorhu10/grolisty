@@ -11,6 +11,7 @@ const ItemForm = () => {
     const [title, setTitle] = useState('');
     const [brand, setBrand] = useState('');
     const [weight, setWeight] = useState('');
+    const [weightUnit, setWeightUnit] = useState('');
     const [error, setError] = useState(null);
     const [emptyFields, setEmptyFields] = useState([]);
     
@@ -22,7 +23,7 @@ const ItemForm = () => {
             return;
         }
         
-        const groceryItem = {title, brand, weight};
+        const groceryItem = {title, brand, weight, weightUnit};
 
         const response = await fetch('/api/groceries', {
             method: 'POST',
@@ -44,6 +45,7 @@ const ItemForm = () => {
             setTitle('');
             setBrand('');
             setWeight('');
+            setWeightUnit('');
             setError(null);
             setEmptyFields([]);
             console.log('New Grocery Item Added:', json);
@@ -72,15 +74,24 @@ const ItemForm = () => {
                     className={emptyFields.includes('brand') ? 'error' : ''}
                 />
 
-                <label>Weight (in g):</label>
-                <input 
-                    type="number"
-                    onChange={(e) => setWeight(e.target.value)}
-                    value={weight}
-                    className={emptyFields.includes('weight') ? 'error' : ''}
-                />
+                <label>Weight:</label>
+                <div class="weight">
+                    <input 
+                        type="number"
+                        onChange={(e) => setWeight(e.target.value)}
+                        value={weight}
+                        className={emptyFields.includes('weight') ? 'error' : ''}
+                        min="0"
+                    />
+                    <select className='dropdown' onChange={(e) => setWeightUnit(e.target.value)}>
+                        <option value="g" selected>g</option>
+                        <option value="kg">kg</option>
+                        <option value="mL">mL</option>
+                        <option value="L">L</option>
+                    </select>
+                </div>
 
-                <button>Add Item <AddIcon /></button>
+                <button>Add Item <i className="material-icon"><AddIcon /></i></button>
                 {error && <div className='error'>{error}</div>} 
                 
             </form>
