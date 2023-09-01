@@ -6,8 +6,6 @@ import { motion } from 'framer-motion';
 import EditableItems from "./EditableItems";
 import { useAuthContext } from "../hooks/useAuthContext";
 
-// const cv = require('../4.8.0_opencv.js');
-
 const ReceiptInterface = () => {
     const { user } = useAuthContext();
     const [file, setFile] = useState("");
@@ -92,8 +90,6 @@ const ReceiptInterface = () => {
         ctx.drawImage(imageRef.current, 0, 0);
         ctx.putImageData(preprocessImage(canvas), 0, 0);
 
-        const dataUrl = canvas.toDataURL(type);
-
         Tesseract.recognize(
             file, 'eng',
             {
@@ -114,50 +110,6 @@ const ReceiptInterface = () => {
             setProgress(0);
         });
         
-        // const original = cv.imread(inputFile);
-        // console.log("og", original);
-        // console.log("shape of original", shape(original));
-        // var image = JSON.parse(JSON.stringify(original));
-        // const width = 500;
-        // let {h, w} = shape(image).slice(0, 2);
-        
-        // // image = imutils.resize(image, width=500)
-        // var r = width / w;
-        // var dim = [width, h * r];
-        // image = cv.resize(image, dim, 'inter');
-        // var ratio = shape(original)[1] / shape(image)[1];
-
-        // // Convert the image to grayscale, blur slightly, then apply edge detection
-        // var grayScale = cv.cvtColor(image, cv.COLOR_BGR2GRAY);
-        // var blurred = cv.GaussianBlur(grayScale, (5, 5), 0);
-        // var edged = cv.Canny(blurred, 75, 180);
-
-        // // Find contours in the edge map and sort them by size in descending order
-        // var contours = cv.findContours(JSON.parse(JSON.stringify(edged)), cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE);
-        // contours = (contours.length === 2) ? contours[0] : (contours.length === 3) ? contours[1] : contours;
-        // contours.sort(cv.contourArea).reverse();
-
-        // // Iniitialize a contour that corresponds to the receipt outline
-        // var receiptContour = [];
-
-        // // Loop over contours
-        // for (var i = 0; i < contours.length; i++){
-        //     let perimeter = cv.arcLength(contours[i], true);
-        //     let approx = cv.approxPolyDP(contours[i], 0.02 * perimeter, true);
-
-        //     // If approximated contour has four points, then we can assume we have found the outline of the receipt
-        //     if (approx.length === 4) {
-        //         receiptContour = approx;
-        //         break;
-        //     }
-        // }
-
-        // if (receiptContour.length === 0) {
-        //     setError('Could not find receipt outline. Try taking a different picture');
-        //     return;
-        // }
-
-        // var receipt = four_point_transform(original, receiptContour.reshape())
     }
 
     const changeHandler = (e) => {
@@ -169,31 +121,7 @@ const ReceiptInterface = () => {
             setFile(URL.createObjectURL(selected));
             setType(selected.type);
             setError('');
-            // processImage(file);
-            // Load the input image from disk, revise it, compute the ratio of the new width to the old width
-
             
-            // const resizeRatio = width / (float) w; 
-            // const dim = (width, (int) h * r);
-            // image = cv.resize(image, dim, interpolation = inter);
-            
-            // const ratio = original.shape[1] / (float)(image.shape[1]);
-            
-            // // Convert the image to grayscale, blur slightly, then apply edge detection
-            // var grayScale = cv.cvtColor(image, cv.COLOR_BGR2GRAY);
-            // var blurred = cv.GaussianBlur(grayScale, (5, 5, null), 0);
-            // var edged = cv.Canny(blurred, 75, 180);
-
-            // // Add cv.imshow to display the image on frontend for debugging purposes
-
-            // var contours = cv.findContours(edged.copy(), cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE);
-            // //contours = imutils.grab_contours(contours);
-            // //contours = sorted(contours, key=cv.contourArea, reverse=True)
-            
-            // // Initialize a contour that corresponds to the receipt outline
-            // var receiptContour = null;
-
-            // // Loop over contours
         } else {
             setFile(null);
             setError('Please select an image file (png or jpeg)');
@@ -204,11 +132,11 @@ const ReceiptInterface = () => {
         <div>
             <form className="receipt-interface" onSubmit={convertToText}>
                 <div className="receipt-input">
-                    <label>Import Items from Receipt <ReceiptIcon /></label>
+                    <h3><label>Import Items from Receipt  <i className="material-icon"><ReceiptIcon /></i></label></h3>
                     <input type="file" onChange={changeHandler} />
                     <div className="output">
                         { file && <img className="receipt-image" src={file} alt="receipt input" ref={imageRef} /> }
-                        { file && <canvas ref={canvasRef} width={500} height={800}></canvas> }
+                        { file && <canvas className="receipt-image" ref={canvasRef} width={500} height={800}></canvas> }
                         { error && <div className="error">{ error }</div> }
                         { file && <div>{ file.name }</div> }
                     </div>

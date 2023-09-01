@@ -6,7 +6,7 @@ import { useGroceriesContext } from "../hooks/useGroceriesContext";
 
 const EditableItems = ({extractedData}) => {
     const { user } = useAuthContext();
-    const { dispatch } = useGroceriesContext;
+    const { dispatch } = useGroceriesContext();
 
     const [items, setItems] = useState([]);
     const [error, setError] = useState(null);
@@ -91,6 +91,9 @@ const EditableItems = ({extractedData}) => {
                 dispatch({type: 'CREATE_GROCERY_ITEM', payload: json});
             }
         }
+        setError(null);
+        setEmptyFields([]);
+        setItems([]);
     }
 
     return (
@@ -98,10 +101,26 @@ const EditableItems = ({extractedData}) => {
         { items && <form onSubmit={handleSubmit} className="editable-items">
                 {items.map((item) => (
                     <div className="grocery-details">
-                        <label>Name:</label><input type="text" value={item.title} />
-                        <p><label><strong>Brand: </strong></label><input type="text" value={item.brand} /></p>
-                        <p><label><strong>Weight (g): </strong></label><input type="text" value={item.weight} /></p>
-                        <span><DeleteIcon /></span>
+                        <p><label><strong>Name:</strong></label><input type="text" value={item.title} /></p>
+                        <p><label><strong>Brand:</strong></label><input type="text" value={item.brand} /></p>
+                        <p>
+                        <label><strong>Weight:</strong></label>
+                            <div className="weight">
+                                <input 
+                                    type="number"
+                                    value={item.weight}
+                                    className={emptyFields.includes('weight') ? 'error' : ''}
+                                    min="0"
+                                />
+                                <select className="dropdown" defaultValue={item.weightUnit}>
+                                    <option value="g">g</option>
+                                    <option value="kg">kg</option>
+                                    <option value="mL">mL</option>
+                                    <option value="L">L</option>
+                                </select>
+                            </div>
+                        </p>
+                        <span className="material-icon"><DeleteIcon /></span>
                     </div>
                 ))}
                 <button>Add All Items<i className="material-icon"></i><AddIcon /></button>

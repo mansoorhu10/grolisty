@@ -168,12 +168,11 @@ input[type=number] {
 .receipt-input {
   display: block;
   width: 100%;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  box-sizing: border-box;
-  background-color: white;
   color: black;
   max-width: 400px;
+}
+.receipt-input input[type=file] {
+  background-color: white;
 }
 .receipt-input + label {
   color: white;

@@ -75,7 +75,7 @@ const ItemForm = () => {
                 />
 
                 <label>Weight:</label>
-                <div class="weight">
+                <div className="weight">
                     <input 
                         type="number"
                         onChange={(e) => setWeight(e.target.value)}
@@ -83,8 +83,8 @@ const ItemForm = () => {
                         className={emptyFields.includes('weight') ? 'error' : ''}
                         min="0"
                     />
-                    <select className='dropdown' onChange={(e) => setWeightUnit(e.target.value)}>
-                        <option value="g" selected>g</option>
+                    <select className="dropdown" defaultValue="g" onChange={(e) => setWeightUnit(e.target.value)}>
+                        <option value="g">g</option>
                         <option value="kg">kg</option>
                         <option value="mL">mL</option>
                         <option value="L">L</option>

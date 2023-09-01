@@ -37,9 +37,23 @@ const getProductInformation = async (request, response) => {
     });
     
     const productWeight = await page.evaluate(() => {
+        const regEx = new RegExp("[0-9]+");
         if (document.querySelector("span.product-name__item.product-name__item--package-size")){
-            const weight = document.querySelector("span.product-name__item.product-name__item--package-size").innerText;
-            return weight;
+            var weight = document.querySelector("span.product-name__item.product-name__item--package-size").innerText;
+
+            if (weight.includes('kg')){
+                weightUnit = 'kg';
+            } else if (weight.includes('g')){
+                weightUnit = 'g';
+            } else if (weight.includes('mL') || weight.includes('ml')){
+                weightUnit = 'mL';
+            } else if (weight.includes('L') || weight.includes('l')){
+                weightUnit = 'L';
+            }
+
+            weight = regEx.exec(weight)[0];
+
+            return { weight, weightUnit };
         } else {
             return null;
         }
@@ -48,10 +62,13 @@ const getProductInformation = async (request, response) => {
     const productInfo = {
         title: productName,
         brand: productBrand,
-        weight: productWeight
+        weight: productWeight.weight,
+        weightUnit: productWeight.weightUnit,
     }
 
     console.log(productInfo);
+
+    await browser.close();
 
     return response.status(200).json(productInfo);
 }
