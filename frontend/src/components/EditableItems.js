@@ -11,7 +11,6 @@ const EditableItems = ({extractedData}) => {
     const [items, setItems] = useState([]);
     const [error, setError] = useState(null);
     const [emptyFields, setEmptyFields] = useState([]);
-    
 
     useEffect(() => {
         var data = extractedData.data;

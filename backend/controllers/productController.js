@@ -1,7 +1,4 @@
-const cheerio = require("cheerio");
-const axios = require("axios");
 const puppeteer = require("puppeteer");
-const { Exception } = require("@techstark/opencv-js");
 
 const getProductInformation = async (request, response) => {
     const { upc } = request.params;
