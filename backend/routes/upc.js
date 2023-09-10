@@ -9,7 +9,7 @@ const router = express.Router();
 // Require authentication for all product routes
 router.use(requireAuth);
 
-// GET all product information
-router.get('/:upc', getProductInformation);
+// POST upcs to get all product information
+router.post('/', getProductInformation);
 
 module.exports = router;

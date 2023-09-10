@@ -29,20 +29,20 @@ const EditableItems = ({extractedData}) => {
 
         const fetchData = async () => {
             let productArray = [];
+            const data = {'upcArray': upcArray};
 
-            for (let i = 0; i < upcArray.length; i++){
-                var response = await fetch(`/api/upc/${upcArray[i]}`, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${user.token}`
-                    }
-                });
-    
-                var json = await response.json();
-                productArray.push(json);
-            }
+            var response = await fetch(`/api/upc/`, {
+                method: 'POST',
+                body: JSON.stringify(data),
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${user.token}`
+                }
+            });
 
+            var json = await response.json();
+            productArray = json;
+            
             console.log(productArray);
 
             setItems(productArray);

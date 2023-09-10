@@ -1,73 +1,84 @@
 const puppeteer = require("puppeteer");
 
 const getProductInformation = async (request, response) => {
-    const { upc } = request.params;
-    const pageUrl = `https://www.nofrills.ca/search?search-bar=${upc}`;
+
+    const { upcArray } = request.body;
+    var items = [];
+    console.log(upcArray);
 
     const browser = await puppeteer.launch({
-        headless: true,
+        headless: false,
         defaultViewport: null,
     });
 
-    const page = await browser.newPage();
-    await page.goto(pageUrl, {
-        waitUntil: "networkidle0",
-    });
+    var [page] = await browser.pages();
 
-    // console.log(page);
-    const productBrand = await page.evaluate(() => {
-        if (document.querySelector("span.product-name__item.product-name__item--brand")){
-            const brand = document.querySelector("span.product-name__item.product-name__item--brand").innerText;
-            return brand;
-        } else {
-            return null;
-        }
-    });
+    for(let i = 0; i < upcArray.length; i++){
+        let pageUrl = `https://www.nofrills.ca/search?search-bar=${upcArray[i]}`;
 
-    const productName = await page.evaluate(() => {
-        if (document.querySelector("span.product-name__item.product-name__item--name")){
-            const name = document.querySelector("span.product-name__item.product-name__item--name").innerText;
-            return name;
-        } else {
-            return null;
-        }
-    });
-    
-    const productWeight = await page.evaluate(() => {
-        const regEx = new RegExp("[0-9]+");
-        if (document.querySelector("span.product-name__item.product-name__item--package-size")){
-            var weight = document.querySelector("span.product-name__item.product-name__item--package-size").innerText;
+        page[i] = await browser.newPage();
+        await page[i].goto(pageUrl, {
+            waitUntil: "networkidle0",
+        });
 
-            if (weight.includes('kg')){
-                weightUnit = 'kg';
-            } else if (weight.includes('g')){
-                weightUnit = 'g';
-            } else if (weight.includes('mL') || weight.includes('ml')){
-                weightUnit = 'mL';
-            } else if (weight.includes('L') || weight.includes('l')){
-                weightUnit = 'L';
+        let productBrand = await page[i].evaluate(() => {
+            if (document.querySelector("span.product-name__item.product-name__item--brand")){
+                let brand = document.querySelector("span.product-name__item.product-name__item--brand").innerText;
+                return brand;
+            } else {
+                return null;
             }
+        });
 
-            weight = regEx.exec(weight)[0];
+        let productName = await page[i].evaluate(() => {
+            if (document.querySelector("span.product-name__item.product-name__item--name")){
+                let name = document.querySelector("span.product-name__item.product-name__item--name").innerText;
+                return name;
+            } else {
+                return null;
+            }
+        });
+        
+        let productWeight = await page[i].evaluate(() => {
+            let regEx = new RegExp("[0-9]+");
+            if (document.querySelector("span.product-name__item.product-name__item--package-size")){
+                var weight = document.querySelector("span.product-name__item.product-name__item--package-size").innerText;
 
-            return { weight, weightUnit };
-        } else {
-            return null;
-        }
-    });
+                if (weight.includes('kg')){
+                    weightUnit = 'kg';
+                } else if (weight.includes('g')){
+                    weightUnit = 'g';
+                } else if (weight.includes('mL') || weight.includes('ml')){
+                    weightUnit = 'mL';
+                } else if (weight.includes('L') || weight.includes('l')){
+                    weightUnit = 'L';
+                }
 
-    const productInfo = {
-        title: productName,
-        brand: productBrand,
-        weight: productWeight.weight,
-        weightUnit: productWeight.weightUnit,
+                weight = regEx.exec(weight)[0];
+
+                return { weight, weightUnit };
+            } else {
+                return null;
+            }
+        });
+
+        let productInfo = {
+            title: productName,
+            brand: productBrand,
+            weight: productWeight.weight,
+            weightUnit: productWeight.weightUnit,
+        };
+
+        console.log(productInfo);
+
+        items.push(productInfo);
+
+        await page[i].close();
     }
 
-    console.log(productInfo);
-
     await browser.close();
-
-    return response.status(200).json(productInfo);
+    
+    return response.status(200).json(items);
 }
 
 module.exports = { getProductInformation };
