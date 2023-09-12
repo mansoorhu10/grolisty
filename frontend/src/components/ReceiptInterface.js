@@ -47,6 +47,7 @@ const ReceiptInterface = () => {
             let confidence = result.confidence;
 
             let data = result;
+            console.log("text", data.data.text);
             setData(data);
             setFile(null);
             setProgress(0);
