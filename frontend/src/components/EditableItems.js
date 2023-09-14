@@ -9,6 +9,10 @@ const EditableItems = ({extractedData}) => {
     const { dispatch } = useGroceriesContext();
 
     const [items, setItems] = useState([]);
+    const [titles, setTitles] = useState('');
+    const [brands, setBrands] = useState('');
+    const [weights, setWeights] = useState('');
+    const [weightUnits, setWeightUnits] = useState('');
     const [error, setError] = useState(null);
     const [emptyFields, setEmptyFields] = useState([]);
 
@@ -42,16 +46,25 @@ const EditableItems = ({extractedData}) => {
 
             var json = await response.json();
             productArray = json;
-            
             console.log(productArray);
-
             setItems(productArray);
+
+            var tempTitles = productArray.map(item => item.title);
+            var tempBrands = productArray.map(item => item.brand);
+            var tempWeights = productArray.map(item => item.weight);
+            var tempWeightUnits = productArray.map(item => item.weightUnit);
+
+            setTitles(tempTitles);
+            setBrands(tempBrands);
+            setWeights(tempWeights);
+            setWeightUnits(tempWeightUnits);
+            
             return;
         }
 
         fetchData();
 
-    }, [extractedData]);
+    }, [extractedData, user.token]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -95,13 +108,54 @@ const EditableItems = ({extractedData}) => {
         setItems([]);
     }
 
+    const changeTitles = (value, key) => {
+        console.log('changed titles');
+        var newTitles = titles;
+
+        newTitles[key] = value;
+
+        setTitles(newTitles);
+    }
+
+    const changeBrands = (value, key) => {
+        console.log('changed brands');
+
+        var newBrands = brands;
+
+        newBrands[key] = value;
+
+        setBrands(newBrands);
+    }
+
+    const changeWeights = (value, key) => {
+        console.log('changed weights');
+
+        var newWeights = weights;
+
+        newWeights[key] = value;
+
+        setWeights(newWeights);
+    }
+
+    const changeWeightUnits = (value, key) => {
+        console.log('changed weight units');
+
+        var newWeightUnits = weightUnits;
+
+        newWeightUnits[key] = value;
+
+        setWeightUnits(newWeightUnits);
+    }
+
+
+
     return (
         <div>
         { items && <form onSubmit={handleSubmit} className="editable-items">
-                {items.map((item) => (
-                    <div className="grocery-details">
-                        <p><label><strong>Name:</strong></label><input type="text" value={item.title} /></p>
-                        <p><label><strong>Brand:</strong></label><input type="text" value={item.brand} /></p>
+                {items.map((item, index) => (
+                    <div className="grocery-details" key={index}>
+                        <p><label><strong>Name:</strong></label><input type="text" value={item.title} onChange={(e) => changeTitles(e.target.value, index)}/></p>
+                        <p><label><strong>Brand:</strong></label><input type="text" value={item.brand} onChange={(e) => changeBrands(e.target.value, index)}/></p>
                         <p>
                         <label><strong>Weight:</strong></label>
                             <div className="weight">
@@ -110,8 +164,9 @@ const EditableItems = ({extractedData}) => {
                                     value={item.weight}
                                     className={emptyFields.includes('weight') ? 'error' : ''}
                                     min="0"
+                                    onChange={(e) => changeWeights(e.target.value, index)}
                                 />
-                                <select className="dropdown" defaultValue={item.weightUnit}>
+                                <select className="dropdown" defaultValue={item.weightUnit} onChange={(e) => changeWeightUnits(e.target.value, index)}>
                                     <option value="g">g</option>
                                     <option value="kg">kg</option>
                                     <option value="mL">mL</option>

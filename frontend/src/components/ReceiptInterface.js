@@ -44,10 +44,11 @@ const ReceiptInterface = () => {
         })
         .then (result => {
             console.log(result);
-            let confidence = result.confidence;
+            let confidence = result.data.confidence;
 
             let data = result;
             console.log("text", data.data.text);
+            console.log("confidence", confidence);
             setData(data);
             setFile(null);
             setProgress(0);

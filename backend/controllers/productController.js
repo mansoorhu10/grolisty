@@ -26,7 +26,7 @@ const getProductInformation = async (request, response) => {
                 let brand = document.querySelector("span.product-name__item.product-name__item--brand").innerText;
                 return brand;
             } else {
-                return null;
+                return "";
             }
         });
 
@@ -35,7 +35,7 @@ const getProductInformation = async (request, response) => {
                 let name = document.querySelector("span.product-name__item.product-name__item--name").innerText;
                 return name;
             } else {
-                return null;
+                return "";
             }
         });
         
@@ -52,13 +52,15 @@ const getProductInformation = async (request, response) => {
                     weightUnit = 'mL';
                 } else if (weight.includes('L') || weight.includes('l')){
                     weightUnit = 'L';
+                } else {
+                    weightUnit = 'g';
                 }
 
                 weight = regEx.exec(weight)[0];
 
                 return { weight, weightUnit };
             } else {
-                return null;
+                return "";
             }
         });
 
