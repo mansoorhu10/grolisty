@@ -9,10 +9,6 @@ const EditableItems = ({extractedData}) => {
     const { dispatch } = useGroceriesContext();
 
     const [items, setItems] = useState([]);
-    const [titles, setTitles] = useState('');
-    const [brands, setBrands] = useState('');
-    const [weights, setWeights] = useState('');
-    const [weightUnits, setWeightUnits] = useState('');
     const [error, setError] = useState(null);
     const [emptyFields, setEmptyFields] = useState([]);
 
@@ -48,16 +44,6 @@ const EditableItems = ({extractedData}) => {
             productArray = json;
             console.log(productArray);
             setItems(productArray);
-
-            var tempTitles = productArray.map(item => item.title);
-            var tempBrands = productArray.map(item => item.brand);
-            var tempWeights = productArray.map(item => item.weight);
-            var tempWeightUnits = productArray.map(item => item.weightUnit);
-
-            setTitles(tempTitles);
-            setBrands(tempBrands);
-            setWeights(tempWeights);
-            setWeightUnits(tempWeightUnits);
             
             return;
         }
@@ -108,65 +94,65 @@ const EditableItems = ({extractedData}) => {
         setItems([]);
     }
 
-    const changeTitles = (value, key) => {
+    const changeTitles = (e, key) => {
         console.log('changed titles');
-        var newTitles = titles;
 
-        newTitles[key] = value;
+        var tempProducts = items;
+        var value = e.target.value;
 
-        setTitles(newTitles);
+        tempProducts[key].title = value;
+        console.log(tempProducts);
+        setItems(tempProducts);
     }
 
-    const changeBrands = (value, key) => {
+    const changeBrands = (e, key) => {
         console.log('changed brands');
 
-        var newBrands = brands;
+        var tempProducts = items;
+        var value = e.target.value;
 
-        newBrands[key] = value;
-
-        setBrands(newBrands);
+        tempProducts[key].brand = value;
+        setItems(tempProducts);
     }
 
-    const changeWeights = (value, key) => {
+    const changeWeights = (e, key) => {
         console.log('changed weights');
 
-        var newWeights = weights;
+        var tempProducts = items;
+        var value = e.target.value;
 
-        newWeights[key] = value;
-
-        setWeights(newWeights);
+        tempProducts[key].weight = value;
+        setItems(tempProducts);
     }
 
-    const changeWeightUnits = (value, key) => {
+    const changeWeightUnits = (e, key) => {
         console.log('changed weight units');
 
-        var newWeightUnits = weightUnits;
+        var tempProducts = items;
+        var value = e.target.value;
 
-        newWeightUnits[key] = value;
-
-        setWeightUnits(newWeightUnits);
+        tempProducts[key].weightUnit = value;
+        setItems(tempProducts);
     }
-
-
 
     return (
         <div>
         { items && <form onSubmit={handleSubmit} className="editable-items">
                 {items.map((item, index) => (
                     <div className="grocery-details" key={index}>
-                        <p><label><strong>Name:</strong></label><input type="text" value={item.title} onChange={(e) => changeTitles(e.target.value, index)}/></p>
-                        <p><label><strong>Brand:</strong></label><input type="text" value={item.brand} onChange={(e) => changeBrands(e.target.value, index)}/></p>
+                        <p><label><strong>Name:</strong></label><input type="text" defaultValue={item.title} onChange={(e) => changeTitles(e, index)}/></p>
+                        <p><label><strong>Brand:</strong></label><input type="text" defaultValue={item.brand} onChange={(e) => changeBrands(e, index)}/></p>
                         <p>
                         <label><strong>Weight:</strong></label>
                             <div className="weight">
                                 <input 
                                     type="number"
-                                    value={item.weight}
+                                    defaultValue={item.weight}
                                     className={emptyFields.includes('weight') ? 'error' : ''}
                                     min="0"
-                                    onChange={(e) => changeWeights(e.target.value, index)}
+                                    onChange={(e) => changeWeights(e, index)}
                                 />
-                                <select className="dropdown" defaultValue={item.weightUnit} onChange={(e) => changeWeightUnits(e.target.value, index)}>
+                                <select className="dropdown" defaultValue={item.weightUnit} onChange={(e) => changeWeightUnits(e, index)}>
                                     <option value="g">g</option>
                                     <option value="kg">kg</option>
                                     <option value="mL">mL</option>
