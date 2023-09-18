@@ -1,4 +1,4 @@
-import { useState, useEffect, setState } from "react";
+import { useState, useEffect } from "react";
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
 import { useAuthContext } from "../hooks/useAuthContext";
@@ -92,6 +92,8 @@ const EditableItems = ({extractedData}) => {
         setError(null);
         setEmptyFields([]);
         setItems([]);
+        extractedData = null;
+
     }
 
     const changeTitles = (e, key) => {
@@ -135,6 +137,22 @@ const EditableItems = ({extractedData}) => {
         setItems(tempProducts);
     }
 
+    const handleClick = (key) => {
+        if (!user) {
+            return;
+        }
+
+        var tempProducts = []
+
+        for(let i = 0; i < items.length; i++){
+            if(i !== key){
+                tempProducts.push(items[i]);
+            }
+        }
+        setItems(tempProducts);     
+
+    }
+
     return (
         <div>
         { items && <form onSubmit={handleSubmit} className="editable-items">
@@ -160,7 +178,7 @@ const EditableItems = ({extractedData}) => {
                                 </select>
                             </div>
                         </p>
-                        <span className="material-icon"><DeleteIcon /></span>
+                        <span className="material-icon" onClick={() => handleClick(index)}><DeleteIcon /></span>
                     </div>
                 ))}
                 <button>Add All Items<i className="material-icon"></i><AddIcon /></button>
