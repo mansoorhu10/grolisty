@@ -69,6 +69,7 @@ const getProductInformation = async (request, response) => {
             brand: productBrand,
             weight: productWeight.weight,
             weightUnit: productWeight.weightUnit,
+            id: i
         };
 
         console.log(productInfo);

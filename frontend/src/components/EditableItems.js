@@ -3,6 +3,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
 import { useAuthContext } from "../hooks/useAuthContext";
 import { useGroceriesContext } from "../hooks/useGroceriesContext";
+import { useForceUpdate } from "framer-motion";
 
 const EditableItems = ({extractedData}) => {
     const { user } = useAuthContext();
@@ -142,14 +143,9 @@ const EditableItems = ({extractedData}) => {
             return;
         }
 
-        var tempProducts = []
-
-        for(let i = 0; i < items.length; i++){
-            if(i !== key){
-                tempProducts.push(items[i]);
-            }
-        }
-        setItems(tempProducts);     
+        setItems((items) => 
+            items.filter((item) => item.id !== key)
+        );
 
     }
 
@@ -160,7 +156,7 @@ const EditableItems = ({extractedData}) => {
                     <div className="grocery-details" key={index}>
                         <p><label><strong>Name:</strong></label><input type="text" defaultValue={item.title} onChange={(e) => changeTitles(e, index)}/></p>
                         <p><label><strong>Brand:</strong></label><input type="text" defaultValue={item.brand} onChange={(e) => changeBrands(e, index)}/></p>
-                        <p>
+                        <div>
                         <label><strong>Weight:</strong></label>
                             <div className="weight">
                                 <input 
@@ -177,8 +173,8 @@ const EditableItems = ({extractedData}) => {
                                     <option value="L">L</option>
                                 </select>
                             </div>
-                        </p>
-                        <span className="material-icon" onClick={() => handleClick(index)}><DeleteIcon /></span>
+                        </div>
+                        <span onClick={() => handleClick(index)}><DeleteIcon /></span>
                     </div>
                 ))}
                 <button>Add All Items<i className="material-icon"></i><AddIcon /></button>
