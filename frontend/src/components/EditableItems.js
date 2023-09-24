@@ -3,7 +3,6 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
 import { useAuthContext } from "../hooks/useAuthContext";
 import { useGroceriesContext } from "../hooks/useGroceriesContext";
-import { useForceUpdate } from "framer-motion";
 
 const EditableItems = ({extractedData}) => {
     const { user } = useAuthContext();
@@ -143,30 +142,30 @@ const EditableItems = ({extractedData}) => {
             return;
         }
 
-        setItems((items) => 
-            items.filter((item) => item.id !== key)
-        );
+        setItems(items => items.filter((item) => item.id !== key));
 
+        console.log(items)
     }
 
     return (
         <div>
         { items && <form onSubmit={handleSubmit} className="editable-items">
-                {items.map((item, index) => (
-                    <div className="grocery-details" key={index}>
-                        <p><label><strong>Name:</strong></label><input type="text" defaultValue={item.title} onChange={(e) => changeTitles(e, index)}/></p>
-                        <p><label><strong>Brand:</strong></label><input type="text" defaultValue={item.brand} onChange={(e) => changeBrands(e, index)}/></p>
+                {items.map((item) => (
+                    <div className="grocery-details" key={item.id}>
+                        <p>ID: {item.id}</p>
+                        <p><label><strong>Name:</strong></label><input type="text" defaultValue={item.title} onChange={(e) => changeTitles(e, item.id)}/></p>
+                        <p><label><strong>Brand:</strong></label><input type="text" defaultValue={item.brand} onChange={(e) => changeBrands(e, item.id)}/></p>
                         <div>
-                        <label><strong>Weight:</strong></label>
+                            <label><strong>Weight:</strong></label>
                             <div className="weight">
                                 <input 
                                     type="number"
                                     defaultValue={item.weight}
                                     className={emptyFields.includes('weight') ? 'error' : ''}
                                     min="0"
-                                    onChange={(e) => changeWeights(e, index)}
+                                    onChange={(e) => changeWeights(e, item.id)}
                                 />
-                                <select className="dropdown" defaultValue={item.weightUnit} onChange={(e) => changeWeightUnits(e, index)}>
+                                <select className="dropdown" defaultValue={item.weightUnit} onChange={(e) => changeWeightUnits(e, item.id)}>
                                     <option value="g">g</option>
                                     <option value="kg">kg</option>
                                     <option value="mL">mL</option>
@@ -174,7 +173,7 @@ const EditableItems = ({extractedData}) => {
                                 </select>
                             </div>
                         </div>
-                        <span onClick={() => handleClick(index)}><DeleteIcon /></span>
+                        <span onClick={() => handleClick(item.id)}><DeleteIcon /></span>
                     </div>
                 ))}
                 <button>Add All Items<i className="material-icon"></i><AddIcon /></button>
