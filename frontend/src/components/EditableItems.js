@@ -15,11 +15,16 @@ const EditableItems = ({extractedData}) => {
     useEffect(() => {
         var data = extractedData.data;
         const lines = data.lines;
-        const universalProductCode = new RegExp("0+[0-9]{10,11}");
+        const universalProductCode = new RegExp("[0|(|)]+[0-9]{10,11}");
         var upcArray = [];
         
         for (let i = 0; i < lines.length; i++){
             let singleLineArray = universalProductCode.exec(lines[i].text);
+
+            // if(singleLineArray[0] === '(' || singleLineArray[0] === ')'){
+            //     singleLineArray[0] = '0';
+            // }
+
             if(singleLineArray){
                 upcArray.push(singleLineArray[0]);
             }  
@@ -66,7 +71,7 @@ const EditableItems = ({extractedData}) => {
 
         for (let i = 0; i < groceryItems.length; i++){
             console.log(groceryItems[i]);
-            var response = await fetch('/api/groceries', {
+            var response = await fetch('/api/groceries/', {
                 method: 'POST',
                 body: JSON.stringify(groceryItems[i]),
                 headers: {
@@ -93,7 +98,6 @@ const EditableItems = ({extractedData}) => {
         setEmptyFields([]);
         setItems([]);
         extractedData = null;
-
     }
 
     const changeTitles = (e, key) => {
@@ -152,11 +156,11 @@ const EditableItems = ({extractedData}) => {
         { items && <form onSubmit={handleSubmit} className="editable-items">
                 {items.map((item) => (
                     <div className="grocery-details" key={item.id}>
-                        <p>ID: {item.id}</p>
+                        <span className="delete-icon" onClick={() => handleClick(item.id)}><DeleteIcon /></span>
                         <p><label><strong>Name:</strong></label><input type="text" defaultValue={item.title} onChange={(e) => changeTitles(e, item.id)}/></p>
                         <p><label><strong>Brand:</strong></label><input type="text" defaultValue={item.brand} onChange={(e) => changeBrands(e, item.id)}/></p>
                         <div>
-                            <label><strong>Weight:</strong></label>
+                            <p><label><strong>Weight:</strong></label></p>
                             <div className="weight">
                                 <input 
                                     type="number"
@@ -173,10 +177,10 @@ const EditableItems = ({extractedData}) => {
                                 </select>
                             </div>
                         </div>
-                        <span onClick={() => handleClick(item.id)}><DeleteIcon /></span>
+                        
                     </div>
                 ))}
-                <button>Add All Items<i className="material-icon"></i><AddIcon /></button>
+                <button>Add All Items<i className="material-icon"><AddIcon /></i></button>
             </form>
         }
         </div>

@@ -198,3 +198,7 @@ input[type=number] {
   background: var(--primary);
   margin-top: 20px;
 }
+.delete-icon {
+  vertical-align: middle;
+}
+
