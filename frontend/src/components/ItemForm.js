@@ -11,7 +11,7 @@ const ItemForm = () => {
     const [title, setTitle] = useState('');
     const [brand, setBrand] = useState('');
     const [weight, setWeight] = useState('');
-    const [weightUnit, setWeightUnit] = useState('');
+    const [weightUnit, setWeightUnit] = useState('g');
     const [error, setError] = useState(null);
     const [emptyFields, setEmptyFields] = useState([]);
     
@@ -45,7 +45,7 @@ const ItemForm = () => {
             setTitle('');
             setBrand('');
             setWeight('');
-            setWeightUnit('');
+            setWeightUnit('g');
             setError(null);
             setEmptyFields([]);
             console.log('New Grocery Item Added:', json);
@@ -83,7 +83,7 @@ const ItemForm = () => {
                         className={emptyFields.includes('weight') ? 'error' : ''}
                         min="0"
                     />
-                    <select className="dropdown" defaultValue="g" onChange={(e) => setWeightUnit(e.target.value)}>
+                    <select className="dropdown" defaultValue="g" onChange={(e) => setWeightUnit(e.target.value)} value={weightUnit}>
                         <option value="g">g</option>
                         <option value="kg">kg</option>
                         <option value="mL">mL</option>
