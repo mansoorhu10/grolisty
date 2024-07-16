@@ -5,6 +5,7 @@ import { useAuthContext } from '../hooks/useAuthContext';
 // Components
 import GroceryDetails from '../components/GroceryDetails';
 import ItemForm from '../components/ItemForm';
+import ReceiptInterface from '../components/ReceiptInterface';
 
 const Home = () => {
     const { groceries, dispatch } = useGroceriesContext();

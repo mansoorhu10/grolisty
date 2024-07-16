@@ -7,7 +7,7 @@ const getProductInformation = async (request, response) => {
     console.log(upcArray);
 
     const browser = await puppeteer.launch({
-        headless: true,
+        headless: "new",
         defaultViewport: null,
     });
 

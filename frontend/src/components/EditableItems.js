@@ -8,6 +8,8 @@ const EditableItems = ({extractedData}) => {
     const { user } = useAuthContext();
     const { dispatch } = useGroceriesContext();
 
+    const [modal, setModal] = useState(false);
+
     const [items, setItems] = useState([]);
     const [error, setError] = useState(null);
     const [emptyFields, setEmptyFields] = useState([]);
@@ -27,7 +29,7 @@ const EditableItems = ({extractedData}) => {
 
             if(singleLineArray){
                 upcArray.push(singleLineArray[0]);
-            }  
+            }
         }
         
         console.log(upcArray);
@@ -36,7 +38,7 @@ const EditableItems = ({extractedData}) => {
             let productArray = [];
             const data = {'upcArray': upcArray};
 
-            var response = await fetch(`/api/upc/`, {
+            var response = await fetch(`/api/receipt/`, {
                 method: 'POST',
                 body: JSON.stringify(data),
                 headers: {
@@ -56,6 +58,10 @@ const EditableItems = ({extractedData}) => {
         fetchData();
 
     }, [extractedData, user.token]);
+
+    const toggleModal = () => {
+        setModal(!modal);
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -151,39 +157,54 @@ const EditableItems = ({extractedData}) => {
         console.log(items)
     }
 
+    if (modal) {
+        document.body.classList.add('active-modal')
+    } else {
+        document.body.classList.remove('active-modal')
+    }
+
     return (
-        <div>
-        { items && <form onSubmit={handleSubmit} className="editable-items">
-                {items.map((item) => (
-                    <div className="grocery-details" key={item.id}>
-                        <span className="delete-icon" onClick={() => handleClick(item.id)}><DeleteIcon /></span>
-                        <p><label><strong>Name:</strong></label><input type="text" defaultValue={item.title} onChange={(e) => changeTitles(e, item.id)}/></p>
-                        <p><label><strong>Brand:</strong></label><input type="text" defaultValue={item.brand} onChange={(e) => changeBrands(e, item.id)}/></p>
-                        <div>
-                            <p><label><strong>Weight:</strong></label></p>
-                            <div className="weight">
-                                <input 
-                                    type="number"
-                                    defaultValue={item.weight}
-                                    className={emptyFields.includes('weight') ? 'error' : ''}
-                                    min="0"
-                                    onChange={(e) => changeWeights(e, item.id)}
-                                />
-                                <select className="dropdown" defaultValue={item.weightUnit} onChange={(e) => changeWeightUnits(e, item.id)}>
-                                    <option value="g">g</option>
-                                    <option value="kg">kg</option>
-                                    <option value="mL">mL</option>
-                                    <option value="L">L</option>
-                                </select>
-                            </div>
-                        </div>
-                        
+        <>
+            <button onClick={toggleModal} className="btn-modal">Open</button>
+            
+            {modal && (
+                <div className="modal">
+                    <div onClick={toggleModal} className="overlay"></div>
+                    <div className="modal-content">
+                        { items && <form onSubmit={handleSubmit} className="editable-items">
+                            {items.map((item) => (
+                                <div className="product-details" key={item.id}>
+                                    <span className="delete-icon" onClick={() => handleClick(item.id)}><DeleteIcon /></span>
+                                    <p><label><strong>Name:</strong></label><input type="text" defaultValue={item.title} onChange={(e) => changeTitles(e, item.id)}/></p>
+                                    <p><label><strong>Brand:</strong></label><input type="text" defaultValue={item.brand} onChange={(e) => changeBrands(e, item.id)}/></p>
+                                    <div>
+                                        <p><label><strong>Weight:</strong></label></p>
+                                        <div className="weight">
+                                            <input 
+                                                type="number"
+                                                defaultValue={item.weight}
+                                                className={emptyFields.includes('weight') ? 'error' : ''}
+                                                min="0"
+                                                onChange={(e) => changeWeights(e, item.id)}
+                                            />
+                                            <select className="dropdown" defaultValue={item.weightUnit} onChange={(e) => changeWeightUnits(e, item.id)}>
+                                                <option value="g">g</option>
+                                                <option value="kg">kg</option>
+                                                <option value="mL">mL</option>
+                                                <option value="L">L</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                            <button>Add All Items<i className="material-icon"><AddIcon /></i></button>
+                        </form>
+                        }
+                        <div className="close-modal">CLOSE</div>
                     </div>
-                ))}
-                <button>Add All Items<i className="material-icon"><AddIcon /></i></button>
-            </form>
-        }
-        </div>
+                </div>
+            )}
+        </>
     );
 }
 
