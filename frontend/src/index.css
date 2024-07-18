@@ -205,7 +205,7 @@ input[type=number] {
 /* editable items */
 
 .editable-items {
-  background-color: #fff;
+  background-color: #f1f1f1;
 }
 .product-details {
   background: #fff;
@@ -256,22 +256,24 @@ body.active-modal {
   right: 0;
   bottom: 0;
   position: fixed;
-  overflow-y: auto;
 }
 .overlay {
   background: rgba(49,49,49,0.8);
 }
 .modal-content {
   position: absolute;
-  top: 40%;
+  top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   line-height: 1.4;
   background: #f1f1f1;
-  padding: 14px 28px;
+  padding: 24px 40px;
   border-radius: 3px;
   max-width: 900px;
   min-width: 600px;
+  margin-bottom: 100px;
+  max-height: 80%;
+  overflow-y: auto;
 }
 .close-modal {
   position: absolute;
