@@ -224,6 +224,16 @@ input[type=number] {
   margin: 0;
   font-size: 0.9em;
   color: #555;
+  display: inline-block;
+  width: 30%;
+  padding-right: 5px;
+  padding-left: 5px;
+}
+.weight-group {
+  display: inline-block;
+  width: 33%;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 .product-details span {
   position: absolute;

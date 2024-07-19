@@ -177,7 +177,7 @@ const EditableItems = ({extractedData}) => {
                                     <span className="delete-icon" onClick={() => handleClick(item.id)}><DeleteIcon /></span>
                                     <p><label><strong>Name:</strong></label><input type="text" defaultValue={item.title} onChange={(e) => changeTitles(e, item.id)}/></p>
                                     <p><label><strong>Brand:</strong></label><input type="text" defaultValue={item.brand} onChange={(e) => changeBrands(e, item.id)}/></p>
-                                    <div>
+                                    <div className="weight-group">
                                         <p><label><strong>Weight:</strong></label></p>
                                         <div className="weight">
                                             <input 
