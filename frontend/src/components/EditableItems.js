@@ -174,7 +174,7 @@ const EditableItems = ({extractedData}) => {
                         { items && <form onSubmit={handleSubmit} className="editable-items">
                             {items.map((item) => (
                                 <div className="product-details" key={item.id}>
-                                    <span className="delete-icon" onClick={() => handleClick(item.id)}><DeleteIcon /></span>
+                                    <div className="delete-icon" onClick={() => handleClick(item.id)}><DeleteIcon /></div>
                                     <p><label><strong>Name:</strong></label><input type="text" defaultValue={item.title} onChange={(e) => changeTitles(e, item.id)}/></p>
                                     <p><label><strong>Brand:</strong></label><input type="text" defaultValue={item.brand} onChange={(e) => changeBrands(e, item.id)}/></p>
                                     <div className="weight-group">

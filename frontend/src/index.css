@@ -200,6 +200,8 @@ input[type=number] {
 }
 .delete-icon {
   vertical-align: middle;
+  padding-bottom: 20px;
+  float: right;
 }
 
 /* editable items */
@@ -225,13 +227,13 @@ input[type=number] {
   font-size: 0.9em;
   color: #555;
   display: inline-block;
-  width: 30%;
+  width: 29%;
   padding-right: 5px;
   padding-left: 5px;
 }
 .weight-group {
   display: inline-block;
-  width: 33%;
+  width: 29%;
   padding-left: 5px;
   padding-right: 5px;
 }
@@ -244,8 +246,9 @@ input[type=number] {
   border-radius: 50%;
   color: #333;
 }
-.product-details span:hover {
+.product-details div:hover {
   color: #fa0a16;
+  cursor: pointer;
 }
 
 /* modal */
