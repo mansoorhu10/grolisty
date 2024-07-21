@@ -65,17 +65,12 @@ h1 {
   font-size: 0.9em;
   color: #555;
 }
-.grocery-details span {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  cursor: pointer;
-  padding: 8px;
-  border-radius: 50%;
+.grocery-details div {
   color: #333;
 }
-.grocery-details span:hover {
+.grocery-details div:hover {
   color: #fa0a16;
+  cursor: pointer;
 }
 
 /* grocery item form */
@@ -204,6 +199,8 @@ input[type=number] {
   float: right;
 }
 
+
+
 /* editable items */
 
 .editable-items {
@@ -250,16 +247,10 @@ input[type=number] {
   padding-left: 5px;
   padding-right: 5px;
 }
-.product-details span {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  cursor: pointer;
-  padding: 8px;
-  border-radius: 50%;
+.product-details .delete-icon {
   color: #333;
 }
-.product-details div:hover {
+.product-details .delete-icon:hover {
   color: #fa0a16;
   cursor: pointer;
 }

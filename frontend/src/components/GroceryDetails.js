@@ -32,11 +32,11 @@ const GroceryDetails = ({ groceryItem }) => {
 
     return (
         <div className="grocery-details">
+            <div onClick={handleClick} className="delete-icon"><DeleteIcon /></div>
             <h4>{groceryItem.title}</h4>
             <p><strong>Brand: </strong>{groceryItem.brand}</p>
             <p><strong>Weight: </strong>{groceryItem.weight} {groceryItem.weightUnit}</p>
             <p>{formatDistanceToNow(new Date(groceryItem.createdAt), { addSuffix: true })}</p>
-            <span onClick={handleClick} className="material-icon"><DeleteIcon /></span>
         </div>
     )
 }
