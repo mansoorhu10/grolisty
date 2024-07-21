@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
+import CloseIcon from '@mui/icons-material/Close';
 import { useAuthContext } from "../hooks/useAuthContext";
 import { useGroceriesContext } from "../hooks/useGroceriesContext";
 
@@ -172,6 +173,10 @@ const EditableItems = ({extractedData}) => {
                     <div onClick={toggleModal} className="overlay"></div>
                     <div className="modal-content">
                         { items && <form onSubmit={handleSubmit} className="editable-items">
+                            <div className="top-bar">
+                                <h3>Your Imported Items</h3>
+                                <div className="close-modal" onClick={toggleModal}><CloseIcon /></div>
+                            </div>
                             {items.map((item) => (
                                 <div className="product-details" key={item.id}>
                                     <div className="delete-icon" onClick={() => handleClick(item.id)}><DeleteIcon /></div>
@@ -197,10 +202,11 @@ const EditableItems = ({extractedData}) => {
                                     </div>
                                 </div>
                             ))}
-                            <button>Add All Items<i className="material-icon"><AddIcon /></i></button>
+                            <div className="bottom-bar">
+                                <button>Add All Items<i className="material-icon"><AddIcon /></i></button>
+                            </div>
                         </form>
                         }
-                        <div className="close-modal">CLOSE</div>
                     </div>
                 </div>
             )}

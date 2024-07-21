@@ -209,6 +209,19 @@ input[type=number] {
 .editable-items {
   background-color: #f1f1f1;
 }
+.editable-items .bottom-bar {
+  width: 100%;
+  position: sticky;
+  bottom: 0;
+  overflow: hidden;
+  z-index: 3;
+  background-color: #ffffff;
+  margin-left: -40px;
+  padding-left: 40px;
+  padding-right: 40px;
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
 .product-details {
   background: #fff;
   border-radius: 4px;
@@ -280,7 +293,7 @@ body.active-modal {
   transform: translate(-50%, -50%);
   line-height: 1.4;
   background: #f1f1f1;
-  padding: 24px 40px;
+  padding: 0px 40px;
   border-radius: 3px;
   max-width: 900px;
   min-width: 600px;
@@ -290,7 +303,23 @@ body.active-modal {
 }
 .close-modal {
   position: absolute;
-  top: 10px;
+  top: 14px;
   right: 10px;
   padding: 5px 7px;
+  color: #555;
+}
+.close-modal:hover {
+  color: #000;
+  cursor: pointer;
+}
+.editable-items .top-bar {
+  width: 100%;
+  position: sticky;
+  top: 0;
+  overflow: hidden;
+  z-index: 3;
+  background-color: #ffffff;
+  margin-left: -40px;
+  padding-left: 40px;
+  padding-right: 40px;
 }
