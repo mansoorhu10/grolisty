@@ -295,7 +295,7 @@ body.active-modal {
 .close-modal {
   position: absolute;
   top: 14px;
-  right: 10px;
+  right: 12px;
   padding: 5px 7px;
   color: #555;
 }

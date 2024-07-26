@@ -22,18 +22,18 @@ const getProductInformation = async (request, response) => {
         });
 
         let productBrand = await page[i].evaluate(() => {
-            if (document.querySelector("span.product-name__item.product-name__item--brand")){
-                let brand = document.querySelector("span.product-name__item.product-name__item--brand").innerText;
-                return brand;
+            let query = document.querySelector('[data-testid="product-brand"]');
+            if (query){
+                return query.innerText
             } else {
                 return "";
             }
         });
 
         let productName = await page[i].evaluate(() => {
-            if (document.querySelector("span.product-name__item.product-name__item--name")){
-                let name = document.querySelector("span.product-name__item.product-name__item--name").innerText;
-                return name;
+            let query = document.querySelector('[data-testid="product-title"]');
+            if (query){
+                return query.innerText;
             } else {
                 return "";
             }
@@ -41,8 +41,9 @@ const getProductInformation = async (request, response) => {
         
         let productWeight = await page[i].evaluate(() => {
             let regEx = new RegExp("[0-9]+");
-            if (document.querySelector("span.product-name__item.product-name__item--package-size")){
-                var weight = document.querySelector("span.product-name__item.product-name__item--package-size").innerText;
+            let query = document.querySelector('[data-testid="product-package-size"]');
+            if (query){
+                var weight = query.innerText.split(",")[0];
 
                 if (weight.includes('kg')){
                     weightUnit = 'kg';

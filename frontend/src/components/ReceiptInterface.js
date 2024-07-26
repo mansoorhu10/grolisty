@@ -53,7 +53,6 @@ const ReceiptInterface = () => {
             setFile(null);
             setProgress(0);
         });
-        
     }
 
     const changeHandler = (e) => {
