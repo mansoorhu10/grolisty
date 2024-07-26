@@ -21,29 +21,28 @@ const getProductInformation = async (request, response) => {
             waitUntil: "networkidle0",
         });
 
-        let productBrand = await page[i].evaluate(() => {
+        let { productBrand, productName, productWeight, productWeightUnit } = await page[i].evaluate(() => {
             let query = document.querySelector('[data-testid="product-brand"]');
-            if (query){
-                return query.innerText
-            } else {
-                return "";
+            let brand = "";
+            let title = "";
+            let weight = "";
+            let weightUnit = "";
+            if (query) {
+                brand = query.innerText;
             }
-        });
 
-        let productName = await page[i].evaluate(() => {
-            let query = document.querySelector('[data-testid="product-title"]');
-            if (query){
-                return query.innerText;
+            query = document.querySelector('[data-testid="product-title"]');
+            if (query) {
+                title = query.innerText;
             } else {
-                return "";
+                title = "";
             }
-        });
-        
-        let productWeight = await page[i].evaluate(() => {
+            
             let regEx = new RegExp("[0-9]+");
-            let query = document.querySelector('[data-testid="product-package-size"]');
-            if (query){
-                var weight = query.innerText.split(",")[0];
+            query = document.querySelector('[data-testid="product-package-size"]');
+            if (query) {
+                weight = query.innerText.split(",")[0];
+                weightUnit = 'g';
 
                 if (weight.includes('kg')){
                     weightUnit = 'kg';
@@ -59,17 +58,15 @@ const getProductInformation = async (request, response) => {
 
                 weight = regEx.exec(weight)[0];
 
-                return { weight, weightUnit };
-            } else {
-                return "";
             }
+            return { productBrand: brand, productName: title, productWeight: weight, productWeightUnit: weightUnit };
         });
 
         let productInfo = {
             title: productName,
             brand: productBrand,
-            weight: productWeight.weight,
-            weightUnit: productWeight.weightUnit,
+            weight: productWeight,
+            weightUnit: productWeightUnit,
             id: i
         };
 
