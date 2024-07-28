@@ -78,7 +78,6 @@ const getProductInformation = async (request, response) => {
     }
 
     await browser.close();
-    
     return response.status(200).json(items);
 }
 
