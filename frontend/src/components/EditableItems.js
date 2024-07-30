@@ -24,10 +24,6 @@ const EditableItems = ({extractedData}) => {
         for (let i = 0; i < lines.length; i++){
             let singleLineArray = universalProductCode.exec(lines[i].text);
 
-            // if(singleLineArray[0] === '(' || singleLineArray[0] === ')'){
-            //     singleLineArray[0] = '0';
-            // }
-
             if(singleLineArray){
                 upcArray.push(singleLineArray[0]);
             }
@@ -57,12 +53,16 @@ const EditableItems = ({extractedData}) => {
         }
 
         fetchData();
-
     }, [extractedData, user.token]);
 
     const toggleModal = () => {
         setModal(!modal);
     };
+
+    const resetItems = (e, props) => {
+        toggleModal();
+        setItems([]);
+    }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -164,13 +164,17 @@ const EditableItems = ({extractedData}) => {
         document.body.classList.remove('active-modal')
     }
 
+    useEffect(() => {
+        toggleModal();
+    }, [extractedData])
+
     return (
         <>
-            <button onClick={toggleModal} className="btn-modal">Open</button>
+            <button onClick={resetItems} className="btn-modal">Open</button>
             
             {modal && (
                 <div className="modal">
-                    <div onClick={toggleModal} className="overlay"></div>
+                    <div onClick={resetItems} className="overlay"></div>
                     <div className="modal-content">
                         { items && <form onSubmit={handleSubmit} className="editable-items">
                             <div className="top-bar">

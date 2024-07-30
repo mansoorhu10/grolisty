@@ -17,6 +17,7 @@ const getProductInformation = async (request, response) => {
         let pageUrl = `https://www.nofrills.ca/search?search-bar=${upcArray[i]}`;
 
         page[i] = await browser.newPage();
+        page[i].setDefaultNavigationTimeout(60000);
         await page[i].goto(pageUrl, {
             waitUntil: "networkidle0",
         });
@@ -71,7 +72,6 @@ const getProductInformation = async (request, response) => {
         };
 
         console.log(productInfo);
-
         items.push(productInfo);
 
         await page[i].close();

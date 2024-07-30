@@ -198,6 +198,9 @@ input[type=number] {
   padding-bottom: 20px;
   float: right;
 }
+.output {
+  display: none;
+}
 
 
 
