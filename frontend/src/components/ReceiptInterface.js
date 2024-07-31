@@ -50,9 +50,17 @@ const ReceiptInterface = () => {
             console.log("text", data.data.text);
             console.log("confidence", confidence);
             setData(data);
-            setFile(null);
+            setFile("");
             setProgress(0);
+
         });
+    }
+
+    const resetFile = () => {
+        setFile("");
+        setType("");
+        setData("");
+        console.log("File reset");
     }
 
     const changeHandler = (e) => {
@@ -91,7 +99,7 @@ const ReceiptInterface = () => {
                 ></motion.div> }
                 {error && <div className='error'>{error}</div>}
             </form>
-            { data && <EditableItems extractedData={data} /> }
+            { data && <EditableItems extractedData={data} resetFile={resetFile} /> }
         </div>
     )
 }

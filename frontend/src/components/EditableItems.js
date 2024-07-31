@@ -5,7 +5,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import { useAuthContext } from "../hooks/useAuthContext";
 import { useGroceriesContext } from "../hooks/useGroceriesContext";
 
-const EditableItems = ({extractedData}) => {
+const EditableItems = ({extractedData, resetFile}) => {
     const { user } = useAuthContext();
     const { dispatch } = useGroceriesContext();
 
@@ -59,9 +59,10 @@ const EditableItems = ({extractedData}) => {
         setModal(!modal);
     };
 
-    const resetItems = (e, props) => {
+    const resetItems = () => {
         toggleModal();
         setItems([]);
+        resetFile();
     }
 
     const handleSubmit = async (e) => {
@@ -170,7 +171,7 @@ const EditableItems = ({extractedData}) => {
 
     return (
         <>
-            <button onClick={resetItems} className="btn-modal">Open</button>
+            <button onClick={toggleModal} className="btn-modal">Open</button>
             
             {modal && (
                 <div className="modal">
@@ -179,7 +180,7 @@ const EditableItems = ({extractedData}) => {
                         { items && <form onSubmit={handleSubmit} className="editable-items">
                             <div className="top-bar">
                                 <h3>Your Imported Items</h3>
-                                <div className="close-modal" onClick={toggleModal}><CloseIcon /></div>
+                                <div className="close-modal" onClick={resetItems}><CloseIcon /></div>
                             </div>
                             {items.map((item) => (
                                 <div className="product-details" key={item.id}>
