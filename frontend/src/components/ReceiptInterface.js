@@ -13,6 +13,7 @@ const ReceiptInterface = () => {
     const [type, setType] = useState("");
     const [error, setError] = useState(null);
     const [progress, setProgress] = useState(0);
+    const [fileKey, setFileKey] = useState(Math.random().toString(36)); 
     const canvasRef = useRef(null);
     const imageRef = useRef(null);
 
@@ -60,6 +61,9 @@ const ReceiptInterface = () => {
         setFile("");
         setType("");
         setData("");
+        let randomString = Math.random().toString(36);
+
+        setFileKey(randomString);
         console.log("File reset");
     }
 
@@ -84,7 +88,7 @@ const ReceiptInterface = () => {
             <form className="receipt-interface" onSubmit={convertToText}>
                 <div className="receipt-input">
                     <h3><label>Import Items from Receipt  <i className="material-icon"><ReceiptIcon /></i></label></h3>
-                    <input required type="file" onChange={changeHandler} multiple={false} />
+                    <input key={fileKey} required type="file" onChange={changeHandler} multiple={false} />
                     <div className="output">
                         { file && <img className="receipt-image" src={file} alt="receipt input" ref={imageRef} /> }
                         { file && <canvas className="receipt-image" ref={canvasRef} width={500} height={800}></canvas> }
