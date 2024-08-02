@@ -62,6 +62,7 @@ const EditableItems = ({extractedData, resetFile}) => {
     const resetItems = () => {
         toggleModal();
         setItems([]);
+        document.body.classList.remove("active-modal");
         resetFile();
     }
 
