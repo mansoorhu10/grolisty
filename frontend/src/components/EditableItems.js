@@ -170,9 +170,7 @@ const EditableItems = ({extractedData, resetFile}) => {
     }, [extractedData])
 
     return (
-        <>
-            <button onClick={toggleModal} className="btn-modal">Open</button>
-            
+        <>            
             {modal && (
                 <div className="modal">
                     <div onClick={resetItems} className="overlay"></div>

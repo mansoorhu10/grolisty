@@ -23,16 +23,19 @@ const getProductInformation = async (request, response) => {
         });
 
         let { productBrand, productName, productWeight, productWeightUnit } = await page[i].evaluate(() => {
-            let query = document.querySelector('[data-testid="product-brand"]');
+            let query = document.querySelector('[class="product-name__item product-name__item--brand"]');
             let brand = "";
             let title = "";
             let weight = "";
-            let weightUnit = "";
+            let weightUnit = 'g';
+            let price = 0.0;
+            let pricePerUnit = 0.0;
+            let weightPerUnit = 0;
             if (query) {
                 brand = query.innerText;
             }
 
-            query = document.querySelector('[data-testid="product-title"]');
+            query = document.querySelector('[class="product-name__item product-name__item--name"]');
             if (query) {
                 title = query.innerText;
             } else {
@@ -40,26 +43,53 @@ const getProductInformation = async (request, response) => {
             }
             
             let regEx = new RegExp("[0-9]+");
-            query = document.querySelector('[data-testid="product-package-size"]');
+            query = document.querySelector('[class="price__value selling-price-list__item__price selling-price-list__item__price--now-price__value"]')
             if (query) {
-                weight = query.innerText.split(",")[0];
-                weightUnit = 'g';
+                price = parseFloat(query.innerText.trim("$"));
 
-                if (weight.includes('kg')){
-                    weightUnit = 'kg';
-                } else if (weight.includes('g')){
-                    weightUnit = 'g';
-                } else if (weight.includes('mL') || weight.includes('ml')){
-                    weightUnit = 'mL';
-                } else if (weight.includes('L') || weight.includes('l')){
-                    weightUnit = 'L';
+                query = document.querySelector('[class="price__unit comparison-price-list__item__price__unit"]');
+                if (query) {
+                    pricePerUnit = parseFloat(query.innerText.trim("$"));
+
+                    query = document.querySelector('[class="price__unit comparison-price-list__item__price__unit"]');
+                    if (query) {
+                        weightPerUnit = query.innerText.trim("/");
+                        console.log(weightPerUnit);
+
+                        if (weightPerUnit.includes('kg')){
+                            weightUnit = 'kg';
+                        } else if (weight.includes('g')){
+                            weightUnit = 'g';
+                        } else if (weightPerUnit.includes('mL') || weightPerUnit.includes('ml')){
+                            weightUnit = 'mL';
+                        } else if (weightPerUnit.includes('L') || weightPerUnit.includes('l')){
+                            weightUnit = 'L';
+                        } else {
+                            weightUnit = 'g';
+                        }
+        
+                        weightPerUnit = parseInt(regEx.exec(weightPerUnit)[0]);
+
+                        weight = Math.round(weightPerUnit * (price / pricePerUnit)).toString();
+                    } else {
+                        price = 0.0;
+                        pricePerUnit = 0.0;
+                        weightPerUnit = 0;
+                        weight = "";
+                    }
                 } else {
-                    weightUnit = 'g';
+                    price = 0.0;
+                    pricePerUnit = 0.0;
+                    weightPerUnit = 0;
+                    weight = "";
                 }
-
-                weight = regEx.exec(weight)[0];
-
+            } else {
+                price = 0.0;
+                pricePerUnit = 0.0;
+                weightPerUnit = 0;
+                weight = "";
             }
+
             return { productBrand: brand, productName: title, productWeight: weight, productWeightUnit: weightUnit };
         });
 
